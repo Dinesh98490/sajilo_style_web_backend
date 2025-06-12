@@ -5,14 +5,14 @@ const User = require("../models/user");
 exports.authenticateUser = async (req, res, next) => {
     try {
       
-        //Get token from header
+        //get tokem from the header
       const authHeader = req.headers.authorization;
       if (!authHeader || !authHeader.startsWith("Bearer")) {
         return res
           .status(401)
           .json({ Success: false, message: "Authentication required" });
       }
-      const token = authHeader.split(" ")[1]; //get token after Bearer prefix
+      const token = authHeader.split(" ")[1]; 
       const decoded = jwt.verify(token, process.env.SECRET);
       const user = await User.findOne({ _id: decoded._id });
       if (!user) {
@@ -21,9 +21,9 @@ exports.authenticateUser = async (req, res, next) => {
           .json({ success: false, message: "Token mismatch" });
       }
   
-      //after user to request for further use
+      
       req.user = user;
-      next(); // continue to next functions
+      next(); 
     } catch (err) {
       console.log(err);
       return res
