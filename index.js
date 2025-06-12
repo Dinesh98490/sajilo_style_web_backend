@@ -3,16 +3,22 @@ const CONNECTION_STRING = process.env.MONGODB_URI
 const express = require("express")
 const connectDB = require("./config/sajilo_style_db")
 const userRoutes = require("./routes/userRoutes")
+const cors = require("cors")
 const adminUserRoutes = require("./routes/admin/adminUserRoutes")
 const app = express()
 
+let corsOptions = {
+    origin: "*",
+  
+  }
+  app.use(cors(corsOptions))
 
 
 
-//connect to the database
+
 connectDB()
 
-app.use(express.json()) // accept  json in request
+app.use(express.json()) 
 
 
 //implements the routes
@@ -31,7 +37,7 @@ const PORT = process.env.PORT
 app.listen(
     PORT,
     () => {
-        console.log("Server running", PORT)
+        console.log("Sajilo Style", PORT)
     }
 )
 

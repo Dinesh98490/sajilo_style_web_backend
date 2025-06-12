@@ -1,12 +1,10 @@
 const User = require("../../models/user");
 const bcrypt = require("bcrypt");
 
-// Create User
+// Create user
 exports.createUser = async (req, res) => {
   const {
-    firstName,
-    middleName,
-    lastName,
+    fullName,
     age,
     address,
     phone_number,
@@ -15,7 +13,7 @@ exports.createUser = async (req, res) => {
   } = req.body;
 
   // Basic validation
-  if (!firstName || !lastName || !age || !address || !phone_number || !password) {
+  if (!fullName || !age || !address || !phoneNumber || !password) {
     return res.status(400).json({ success: false, message: "Missing required fields" });
   }
 
@@ -23,15 +21,13 @@ exports.createUser = async (req, res) => {
     const existingUser = await User.findOne({ phone_number });
 
     if (existingUser) {
-      return res.status(400).json({ success: false, message: "Phone number already registered" });
+      return res.status(400).json({ success: false, message: "Phone number already registeres" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
-      firstName,
-      middleName,
-      lastName,
+      fullName,
       age,
       address,
       phone_number,
@@ -50,7 +46,7 @@ exports.createUser = async (req, res) => {
 // Get All Users
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password"); // Don't return password
+    const users = await User.find().select("-password"); 
     return res.status(200).json({ success: true, message: "Users fetched", data: users });
   } catch (err) {
     return res.status(500).json({ success: false, message: "Server error" });
@@ -75,9 +71,7 @@ exports.getOneUser = async (req, res) => {
 // Update User
 exports.updateOneUser = async (req, res) => {
   const {
-    firstName,
-    middleName,
-    lastName,
+    fullName,
     age,
     address,
     role,
@@ -88,9 +82,7 @@ exports.updateOneUser = async (req, res) => {
       req.params.id,
       {
         $set: {
-          firstName,
-          middleName,
-          lastName,
+         fullName,
           age,
           address,
           role,
