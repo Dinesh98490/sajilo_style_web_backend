@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-
+// check the aunthetic user 
 exports.authenticateUser = async (req, res, next) => {
     try {
       
