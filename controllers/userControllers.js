@@ -76,7 +76,7 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-// Get All Users
+// get all users 
 exports.getUsers = async (req, res) => {
   try {
     const users = await User.find().select("-password");
@@ -110,7 +110,7 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-// Delete User
+// delete user by id
 exports.deleteUser = async (req, res) => {
   const { id } = req.params;
 
