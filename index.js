@@ -37,7 +37,7 @@ const PORT = process.env.PORT
 app.listen(
     PORT,
     () => {
-        console.log("Sajilo Style running on server", PORT)
+        console.log("Sajilo Style running on server", PORT) 
     }
 )
 

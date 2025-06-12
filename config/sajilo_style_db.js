@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose")
 
 const CONNECTING_STRING = process.env.MONGODB_URI
