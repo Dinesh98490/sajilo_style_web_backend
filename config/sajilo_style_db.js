@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose")
 
 const CONNECTING_STRING = process.env.MONGODB_URI
@@ -10,9 +11,10 @@ const connectDB = async () => {
                 useUnifiedTopology: true
             }
         )
-        console.log("Mongodb connected")
+        console.log("Mongodb connected")  // connected to the server
     }catch(err){
         console.log("DB error", err)
     }
 }
 module.exports = connectDB
+

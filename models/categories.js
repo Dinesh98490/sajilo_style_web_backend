@@ -13,8 +13,8 @@ const CategorySchema = new mongoose.Schema({
     trim: true,
   },
   imageUrl: {
-    type: String, // URL or local path to the image
-    default: "",  // optional default
+    type: String, 
+    default: "",  
   },
 }, {
   timestamps: true, 
