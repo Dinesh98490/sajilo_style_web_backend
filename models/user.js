@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+
+// model of the user
 const UserSchema = new mongoose.Schema(
   {
     fullName: {
