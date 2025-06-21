@@ -7,6 +7,7 @@ const cors = require("cors")
 const adminUserRoutes = require("./routes/admin/adminUserRoutes")
 const productRoutes = require("./routes/admin/productRoutes")
 const categoryRoutes = require("./routes/admin/categoryRoutes");
+const customerRoutes = require("./routes/admin/customerRoutes")
 const app = express()
 
 let corsOptions = {
@@ -28,6 +29,7 @@ app.use("/api/auth", userRoutes)
 app.use("/api/admin/user", adminUserRoutes)
 app.use("/api/admin/product", productRoutes)
 app.use("/api/admin/category", categoryRoutes)
+app.use("/api/admin/customer", customerRoutes)
 
 
 
