@@ -5,6 +5,8 @@ const connectDB = require("./config/sajilo_style_db")
 const userRoutes = require("./routes/userRoutes")
 const cors = require("cors")
 const adminUserRoutes = require("./routes/admin/adminUserRoutes")
+const productRoutes = require("./routes/admin/productRoutes")
+const categoryRoutes = require("./routes/admin/categoryRoutes");
 const app = express()
 
 let corsOptions = {
@@ -24,6 +26,11 @@ app.use(express.json())
 //implements the routes
 app.use("/api/auth", userRoutes)
 app.use("/api/admin/user", adminUserRoutes)
+app.use("/api/admin/product", productRoutes)
+app.use("/api/admin/category", categoryRoutes)
+
+
+
 
 
 
