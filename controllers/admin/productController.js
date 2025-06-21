@@ -31,7 +31,7 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-// Get all products
+// get all products 
 exports.getProducts = async (req, res) => {
   try {
     const { page = 1, limit = 10, search = "" } = req.query;
@@ -73,7 +73,7 @@ exports.getProducts = async (req, res) => {
   }
 };
 
-// Update a product
+// update a product
 exports.updateProduct = async (req, res) => {
   const { id } = req.params;
   const updateFields = req.body;
