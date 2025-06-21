@@ -1,6 +1,6 @@
 const Customer = require("../../models/customer");
 
-// Create a new customer
+// create a customerControllers 
 exports.createCustomer = async (req, res) => {
   try {
     const imagePath = req.file?.path;
