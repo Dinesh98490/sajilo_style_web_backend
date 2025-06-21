@@ -10,7 +10,7 @@ const {
 
 const upload = require("../../middlewares/fileUpload");
 
-// POST - create customer
+// Pcreate a pist for the customers routes 
 router.post(
   "/",
   upload.single("image"),
