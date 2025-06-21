@@ -23,18 +23,11 @@ connectDB()
 app.use(express.json()) 
 
 
-//implements the routes
+//implement the routes
 app.use("/api/auth", userRoutes)
 app.use("/api/admin/user", adminUserRoutes)
 app.use("/api/admin/product", productRoutes)
 app.use("/api/admin/category", categoryRoutes)
-
-
-
-
-
-
-
 
 
 
