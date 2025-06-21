@@ -10,7 +10,7 @@ router.post(
   productController.createProduct
 );
 
-// GET, UPDATE, DELETE routes
+// get, update, delete routes 
 router.get("/", productController.getProducts);
 router.put("/:id", productController.updateProduct);
 router.delete("/:id", productController.deleteProduct);
