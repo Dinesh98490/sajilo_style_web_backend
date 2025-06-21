@@ -17,7 +17,7 @@ router.post(
   createCustomer
 );
 
-// GET - get all customers
+// get all by customer
 router.get("/", getCustomers);
 
 // GET - get single customer
