@@ -64,7 +64,7 @@ exports.getCustomerById = async (req, res) => {
   }
 };
 
-// Update customer
+// update customer
 exports.updateCustomer = async (req, res) => {
   try {
     const imagePath = req.file?.path;
