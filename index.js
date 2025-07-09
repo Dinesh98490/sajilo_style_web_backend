@@ -8,6 +8,10 @@ const adminUserRoutes = require("./routes/admin/adminUserRoutes")
 const productRoutes = require("./routes/admin/productRoutes")
 const categoryRoutes = require("./routes/admin/categoryRoutes");
 const customerRoutes = require("./routes/admin/customerRoutes")
+const orderRoutes = require("./routes/admin/orderRoutes")
+const paymentRoutes = require("./routes/admin/paymentRoutes")
+const shipmentRoutes = require("./routes/admin/shipmentRoutes")
+const  cartRoutes = require("./routes/cartRoutes")
 const app = express()
 
 let corsOptions = {
@@ -22,6 +26,7 @@ let corsOptions = {
 connectDB()
 
 app.use(express.json()) 
+app.use('/uploads', express.static('uploads'));
 
 
 //implement the routes
@@ -30,6 +35,11 @@ app.use("/api/admin/user", adminUserRoutes)
 app.use("/api/admin/product", productRoutes)
 app.use("/api/admin/category", categoryRoutes)
 app.use("/api/admin/customer", customerRoutes)
+app.use("/api/admin/order", orderRoutes)
+app.use("/api/admin/payment", paymentRoutes)
+app.use("/api/admin/shipment", shipmentRoutes)
+
+app.use("/api/customer/cart", cartRoutes)
 
 
 

@@ -3,8 +3,11 @@ const Customer = require("../../models/customer");
 // create a customerControllers 
 exports.createCustomer = async (req, res) => {
   try {
+    console.log(req.file);
     const imagePath = req.file?.path;
-    const { fullName, email, phone, status } = req.body;
+    console.log("Image:",imagePath);
+    const { name, email, phone, address,status } = req.body;
+    console.log(req.body);
 
     // Check if customer already exists by email or phone
     const existing = await Customer.findOne({
@@ -19,12 +22,14 @@ exports.createCustomer = async (req, res) => {
     }
 
     const customer = new Customer({
-      fullName,
+      name,
       email,
       phone,
+      address,
       status,
       image: imagePath,
     });
+
 
     await customer.save();
 
@@ -35,7 +40,7 @@ exports.createCustomer = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ success: false, message: "Server error"+error });
   }
 };
 
@@ -68,9 +73,9 @@ exports.getCustomerById = async (req, res) => {
 exports.updateCustomer = async (req, res) => {
   try {
     const imagePath = req.file?.path;
-    const { fullName, email, phone, status } = req.body;
+    const { name, email, phone, address,status } = req.body;
 
-    const data = { fullName, email, phone, status };
+    const data = { name, email, phone, address,status };
     if (imagePath) data.image = imagePath;
 
     const updatedCustomer = await Customer.findByIdAndUpdate(

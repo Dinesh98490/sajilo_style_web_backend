@@ -1,38 +1,36 @@
 const mongoose = require("mongoose");
 
-const ProductSchema = new mongoose.Schema(
+const ShipmentSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    desc: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-    image: {
-      type: String,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: true,
-    },
-    size: {
-      type: String,
-      required: true,
-    },
-    categoryId: {
+    user_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
+      ref: "User",
       required: true,
+    },
+    street_address: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    postal_code: {
+      type: String,
+      required: true,
+    },
+    district: {
+      type: String,
+      required: true,
+    },
+    province: {
+      type: String,
+      required: true,
+    },
+    country: {
+      type: String,
+      required: true,
+      default: "Nepal", 
     },
   },
   {
@@ -40,4 +38,4 @@ const ProductSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Product", ProductSchema);
+module.exports = mongoose.model("Shipment", ShipmentSchema);

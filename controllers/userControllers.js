@@ -7,9 +7,14 @@ exports.registerUser = async (req, res) => {
   const { fullName, phone_number, email, password, role } = req.body;
 
   try {
-    if (!fullName || !phone_number || !email || !password) {
+    if (!fullName || !phone_number || !email || !password ) {
       return res.status(400).json({ success: false, message: "Missing required fields" });
     }
+
+
+    if (!["Customer", "Admin"].includes(role)) {
+      return res.status(400).json({ success: false, message: "role must be 'Customer' or 'Admin'" });
+  }
 
     const existingUser = await User.findOne({ phone_number });
 
@@ -38,6 +43,7 @@ exports.registerUser = async (req, res) => {
 // login user logics 
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body)
 
   if (!email || !password) {
     return res.status(400).json({ success: false, message: "Missing fields" });
@@ -76,6 +82,8 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+
+
 // get all users 
 exports.getUsers = async (req, res) => {
   try {
@@ -92,7 +100,11 @@ exports.getUsers = async (req, res) => {
 
 // Get User by ID
 exports.getUserById = async (req, res) => {
-  const { id } = req.params;
+  const { email, password, role } = req.params;
+
+  if (!email || !password || !role) {
+    return res.status(400).json({ success: false, message: "All fields are required" });
+}
 
   try {
     const user = await User.findById(id).select("-password");
@@ -109,6 +121,42 @@ exports.getUserById = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+
+
+
+// // update the use by the amdin
+// exports.updateUserByAdmin = async(req, res) => {
+//   try {
+//     const {fullName, phone_number , email, password} = req.body
+
+//     const user = await User.getUserById(
+//       req.params.id ,
+//       {fullName, phone_number , email, password} ,
+//       {new : true , runValidators : true}
+
+//     ) ;
+//     if(!user)
+// {
+//   return res.status(404).json({message : "User not found"})
+// }
+
+// return res.status(200).json({
+//   success : true ,
+//   data : user ,
+//   message : "User Updated by admin"
+
+// })
+//   }
+//   catch(e){
+//     console.log(e)
+//      return res.status(500).json({ success: false, message: "Server error" });
+
+//   }
+// }
+
+
+
 
 // delete user by id
 exports.deleteUser = async (req, res) => {
