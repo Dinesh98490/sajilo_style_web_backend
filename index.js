@@ -40,9 +40,6 @@ app.use("/api/admin/order", orderRoutes)
 app.use("/api/admin/payment", paymentRoutes)
 app.use("/api/admin/shipment", shipmentRoutes)
 app.use("/api/chatbot", chatBotRoute);
-
-
-
 app.use("/api/customer/cart", cartRoutes)
 
 
