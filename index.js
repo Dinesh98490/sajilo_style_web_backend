@@ -12,6 +12,7 @@ const orderRoutes = require("./routes/admin/orderRoutes")
 const paymentRoutes = require("./routes/admin/paymentRoutes")
 const shipmentRoutes = require("./routes/admin/shipmentRoutes")
 const  cartRoutes = require("./routes/cartRoutes")
+const chatBotRoute=require("./routes/chatBotRoute")
 const app = express()
 
 let corsOptions = {
@@ -38,6 +39,9 @@ app.use("/api/admin/customer", customerRoutes)
 app.use("/api/admin/order", orderRoutes)
 app.use("/api/admin/payment", paymentRoutes)
 app.use("/api/admin/shipment", shipmentRoutes)
+app.use("/api/chatbot", chatBotRoute);
+
+
 
 app.use("/api/customer/cart", cartRoutes)
 
