@@ -5,7 +5,7 @@ exports.createProduct = async (req, res) => {
 
   const imagePath = req.file?.path;
   console.log(imagePath);
-  const { title, desc, price,  color, size, categoryId } = req.body;
+  const { title, desc, price,  color, size, quantity, categoryId } = req.body;
   console.log(req.body);
 
 
@@ -15,9 +15,10 @@ exports.createProduct = async (req, res) => {
       title,
       desc,
       price,
-      image:imagePath,
+      image: imagePath,
       color,
       size,
+      quantity,
       categoryId,
     });
     console.log(product);
