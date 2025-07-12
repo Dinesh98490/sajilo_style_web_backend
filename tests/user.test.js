@@ -5,8 +5,8 @@ const mongoose = require("mongoose");
 
 // --- Test Data ---
 const TEST_USER_DATA = {
-  fullName: "Ram Bahadur",
-  email: "ram.bahadur.test@example.com",
+  fullName: "dinesh Bahadur",
+  email: "dinesh.bahadur.test@example.com",
   phone_number: "9811111111",
   password: "password123",
   role: "Customer",
