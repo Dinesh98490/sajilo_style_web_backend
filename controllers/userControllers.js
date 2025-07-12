@@ -1,15 +1,21 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const nodemailer = require('nodemailer')
 
 // register users code 
 exports.registerUser = async (req, res) => {
   const { fullName, phone_number, email, password, role } = req.body;
 
   try {
-    if (!fullName || !phone_number || !email || !password) {
+    if (!fullName || !phone_number || !email || !password ) {
       return res.status(400).json({ success: false, message: "Missing required fields" });
     }
+
+
+    if (!["Customer", "Admin"].includes(role)) {
+      return res.status(400).json({ success: false, message: "role must be 'Customer' or 'Admin'" });
+  }
 
     const existingUser = await User.findOne({ phone_number });
 
@@ -38,6 +44,7 @@ exports.registerUser = async (req, res) => {
 // login user logics 
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body)
 
   if (!email || !password) {
     return res.status(400).json({ success: false, message: "Missing fields" });
@@ -76,6 +83,8 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+
+
 // get all users 
 exports.getUsers = async (req, res) => {
   try {
@@ -92,7 +101,11 @@ exports.getUsers = async (req, res) => {
 
 // Get User by ID
 exports.getUserById = async (req, res) => {
-  const { id } = req.params;
+  const { email, password, role } = req.params;
+
+  if (!email || !password || !role) {
+    return res.status(400).json({ success: false, message: "All fields are required" });
+}
 
   try {
     const user = await User.findById(id).select("-password");
@@ -109,6 +122,11 @@ exports.getUserById = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+
+
+
+
 
 // delete user by id
 exports.deleteUser = async (req, res) => {
@@ -129,3 +147,69 @@ exports.deleteUser = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+
+
+
+
+
+
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+exports.sendResetLink = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const token = jwt.sign({ id: user._id }, process.env.SECRET, {
+      expiresIn: "15m",
+    });
+    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${token}`;
+
+    const mailOptions = {
+      from: `"Your App" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "Reset your password",
+      html: `<p>Click <a href="${resetUrl}">here</a> to reset your password.</p>`,
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err)
+        return res
+          .status(500)
+          .json({ success: false, message: "Error sending email" });
+      console.log("Email sent: " + info.response);
+      res.status(200).json({ success: true, message: "Reset email sent" });
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+  console.log(req.body)
+
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET);
+    console.log(decoded)
+    const hashed = await bcrypt.hash(password, 10);
+    await User.findByIdAndUpdate(decoded.id, { password: hashed });
+
+    res.status(200).json({ success: true, message: "Password updated" });
+  } catch (err) {
+    res
+      .status(400)
+      .json({ success: false, message: "Invalid or expired token" });
+  }
+};
+

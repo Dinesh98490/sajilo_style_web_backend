@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 // create a customer models 
 const CustomerSchema = new mongoose.Schema(
   {
-    fullName: {
+    name: {
       type: String,
       required: true,
     },
@@ -18,6 +18,10 @@ const CustomerSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    address: {
+      type: String,
+      required: true,
+    },
     status: {
       type: String,
       enum: ["Active", "Inactive"],
@@ -29,7 +33,7 @@ const CustomerSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // adds createdAt and updatedAt
+    timestamps: true, 
   }
 );
 
