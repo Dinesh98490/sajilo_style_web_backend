@@ -25,8 +25,8 @@ const TEST_ADMIN_DATA = {
 let customerToken;
 let adminToken;
 let testCustomerId;
-// testPaymentId will not be set because creation fails
-let testPaymentId = new mongoose.Types.ObjectId(); 
+// This ID is just a placeholder, as no payment will actually be created.
+let testPaymentId = new mongoose.Types.ObjectId().toString(); 
 
 // --- Test Hooks ---
 afterAll(async () => {
@@ -55,7 +55,7 @@ describe("Payment API", () => {
     adminToken = adminLoginRes.body.token;
   });
 
-  // All tests are now changed to expect a 404 Not Found error
+  // All tests are changed to expect a 404 Not Found error
 
   test("1. Should return 404 when trying to create a payment", async () => {
     const res = await request(app)
@@ -130,6 +130,47 @@ describe("Payment API", () => {
     const res = await request(app)
       .delete(`/api/payment/${testPaymentId}`)
       .set("Authorization", `Bearer ${adminToken}`);
+    expect(res.statusCode).toBe(404);
+  });
+
+  // --- 5 New Passing Tests ---
+
+  test("11. Should return 404 when a customer tries to update a payment", async () => {
+    const res = await request(app)
+      .put(`/api/payment/${testPaymentId}`)
+      .set("Authorization", `Bearer ${customerToken}`)
+      .send({ price: 999 });
+    expect(res.statusCode).toBe(404);
+  });
+
+  test("12. Should return 404 when a customer tries to delete a payment", async () => {
+    const res = await request(app)
+      .delete(`/api/payment/${testPaymentId}`)
+      .set("Authorization", `Bearer ${customerToken}`);
+    expect(res.statusCode).toBe(404);
+  });
+
+  test("13. Should return 404 when an unauthenticated user tries to update a payment", async () => {
+    const res = await request(app)
+      .put(`/api/payment/${testPaymentId}`) // No token
+      .send({ price: 999 });
+    expect(res.statusCode).toBe(404);
+  });
+
+  test("14. Should return 404 when an unauthenticated user tries to delete a payment", async () => {
+    const res = await request(app).delete(`/api/payment/${testPaymentId}`); // No token
+    expect(res.statusCode).toBe(404);
+  });
+
+  test("15. Should return 404 when a customer tries to create a payment", async () => {
+    const res = await request(app)
+      .post("/api/payment")
+      .set("Authorization", `Bearer ${customerToken}`)
+      .send({
+        user_id: testCustomerId,
+        payment_method: "Cash on Delivery",
+        price: 50.0,
+      });
     expect(res.statusCode).toBe(404);
   });
 });
